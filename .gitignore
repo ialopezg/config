@@ -1,0 +1,16 @@
+########################
+# DBM: Database Manager
+########################
+
+## Jetbrains Software
+# IntelliJ IDEA
+.idea
+
+## Other files
+# Mac OSX project files
+.DS_Store
+
+## Package Manager
+# Composer
+/vendor/
+composer.lock
