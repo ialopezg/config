@@ -2,6 +2,12 @@
 
 PHP based Configuration file manager
 
+## Installation
+
+```shell script
+composer require ialopezg/config
+```
+
 ## Features
 
 * Exceptions handling.
@@ -28,8 +34,9 @@ echo $config->get('database.connections.default.db_driver');
 
 // Write the file
 $config->toFile('database.php');
-
 ```
+
+Please, check `examples` directory for more details of usage.
 
 ## License
 This project is under the MIT license. For more information see See [LICENSE](LICENSE).
