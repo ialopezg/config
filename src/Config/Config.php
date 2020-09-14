@@ -3,6 +3,7 @@
 namespace ialopezg\Libraries\Config;
 
 use ialopezg\Libraries\Config\Readers\ReaderInterface;
+use ialopezg\Libraries\Config\Writers\WriterInterface;
 use ialopezg\Libraries\Exceptions\FileNotFoundException;
 use ialopezg\Libraries\Exceptions\UnsupportedFormatException;
 
@@ -47,6 +48,24 @@ class Config extends BaseConfig {
         }
 
         throw new UnsupportedFormatException("The configuration file format '{$format}' is not supported.");
+    }
+
+    /**
+     * Gets a writer for a given file extension.
+     *
+     * @param string $extension Writer file extension.
+     *
+     * @return mixed
+     * @throws UnsupportedFormatException If `$extension` is an unsupported file format
+     */
+    protected function getWriter($extension) {
+        foreach ($this->supportedWriters as $writer) {
+            if (in_array($extension, $writer::getSupportedExtensions())) {
+                return new $writer();
+            }
+        }
+
+        throw new UnsupportedFormatException('Not supported configuration file format');
     }
 
     /**
@@ -102,7 +121,24 @@ class Config extends BaseConfig {
         $this->data = array_replace_recursive($this->data, $parser->parseString($config));
     }
 
-    public function toFile($filename, $writer = null) {
+    /**
+     * Writes configuration to file.
+     *
+     * @param string           $filename   Filename to save configuration to
+     * @param WriterInterface  $writer Configuration writer
+     * @throws FileNotFoundException if filename cannot be located.
+     */
+    public function toFile($filename, WriterInterface $writer = null) {
+        $filename = empty($filename) ? 'config.php' : $filename;
+        if (!file_exists($filename)) {
+            throw new FileNotFoundException("File '{$filename}' does not exists");
+        }
+        $extension = pathinfo($filename)['extension'];
 
+        if (is_null($writer)) {
+            $writer = $this->getWriter($extension);
+        }
+        // Save file using specified writer
+        $writer->toFile($this->all(), $filename);
     }
 }
