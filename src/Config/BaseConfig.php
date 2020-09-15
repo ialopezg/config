@@ -2,12 +2,14 @@
 
 namespace ialopezg\Libraries\Config;
 
+use ialopezg\Libraries\CollectionInterface;
+
 /**
  * Base Config
  *
  * @package ialopezg\Libraries\Config
  */
-abstract class BaseConfig implements \ArrayAccess, ConfigInterface, \Iterator {
+abstract class BaseConfig implements \ArrayAccess, CollectionInterface, \Iterator {
     /** @var array Stores the configuration data. */
     protected $data = null;
     /** @var array Caches the configuration data. */

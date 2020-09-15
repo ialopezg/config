@@ -9,8 +9,10 @@
             "email": "me@ialopezg.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-        "php": "^5.6 || ^7.0"
+        "php": "^5.6 || ^7.0",
+        "ialopezg/collections": "0.0.1"
     },
     "autoload": {
         "psr-4": {
